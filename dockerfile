@@ -1,9 +1,14 @@
+# ใช้ PHP เวอร์ชัน 8.2 พร้อม Apache
 FROM php:8.2-apache
 
-# คัดลอกไฟล์ทั้งหมดไปยัง DocumentRoot ของ Apache
-COPY . .
-# เปิดใช้งาน mod_rewrite (หากคุณใช้ .htaccess)
+# เปิด mod_rewrite (ถ้าใช้ .htaccess)
 RUN a2enmod rewrite
 
-# เปิดพอร์ต 80 สำหรับ Railway
-EXPOSE 80 
+# คัดลอกไฟล์ทั้งหมดของคุณไปยังโฟลเดอร์เว็บของ Apache
+COPY . /var/www/html/
+
+# กำหนด permission ถ้าจำเป็น
+RUN chown -R www-data:www-data /var/www/html
+
+# เปิดพอร์ต 80 (พอร์ต default ของเว็บ)
+EXPOSE 80
