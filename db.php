@@ -1,16 +1,7 @@
 <?php
+$is_production = getenv('DB_HOST') && getenv('DB_HOST') !== 'localhost';
 
-
-$is_local = in_array($_SERVER['SERVER_NAME'], ['localhost', '127.0.0.1']);
-if ($is_local) {
-    $db_config = [
-        'servername' => 'localhost',
-        'username' => 'root',
-        'password' => '',
-        'dbname'   => 'wepmove',
-        'port'     => 3306
-    ];
-} else {
+if ($is_production) {
     $db_config = [
         'servername' => getenv('DB_HOST'),
         'username'   => getenv('DB_USER'),
@@ -18,20 +9,37 @@ if ($is_local) {
         'dbname'     => getenv('DB_NAME'),
         'port'       => getenv('DB_PORT') ?: 3306
     ];
+} else {
+    $db_config = [
+        'servername' => 'localhost',
+        'username' => 'root',
+        'password' => '',
+        'dbname'   => 'wepmove',
+        'port'     => 3306
+    ];
 }
 
-$conn = new mysqli(
-    $db_config['servername'],
-    $db_config['username'],
-    $db_config['password'],
-    $db_config['dbname'],
-    $db_config['port']
-);
-
-if ($conn->connect_error) {
-    error_log("Connection failed: " . $conn->connect_error);
-    die("การเชื่อมต่อล้มเหลว");
+try {
+    $conn = new mysqli(
+        $db_config['servername'],
+        $db_config['username'],
+        $db_config['password'],
+        $db_config['dbname'],
+        $db_config['port']
+    );
+    
+    if ($conn->connect_error) {
+        throw new Exception("Connection failed: " . $conn->connect_error);
+    }
+    
+    mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+    
+    // Debug info (ลบออกได้เมื่อแน่ใจว่าทำงาน)
+    error_log("Database connected successfully to: " . $db_config['servername']);
+    
+} catch (Exception $e) {
+    error_log("Database connection error: " . $e->getMessage());
+    error_log("Trying to connect to: " . $db_config['servername'] . ":" . $db_config['port']);
+    die("การเชื่อมต่อฐานข้อมูลล้มเหลว");
 }
-
-mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 ?>
