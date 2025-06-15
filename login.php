@@ -1,30 +1,20 @@
 <?php
 session_start();  
 
-$servername = "localhost";
-$username = "root"; 
-$password = ""; 
-$dbname = "wepmove"; 
 
-$conn = new mysqli($servername, $username, $password, $dbname);
+require_once 'db.php';
 
 $message = '';
-
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = $_POST['email'];
     $password = $_POST['password'];
-
     
     $sql = "SELECT * FROM users WHERE email = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("s", $email);  
     $stmt->execute();
     $result = $stmt->get_result();
-
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
         if (password_verify($password, $row['password'])) {
@@ -32,7 +22,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_SESSION['logged_in'] = true;
             $_SESSION['email'] = $email;  
             $_SESSION['username'] = $row['username'];  
-
             $message = "เข้าสู่ระบบสำเร็จ!";
             
             header("Location: index.php");
@@ -46,7 +35,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $stmt->close();
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="th">
 <head>
@@ -63,13 +51,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             margin-top: 15px;
             border-radius: 5px;
         }
-
         .success {
             background-color: #d4edda;
             color: #155724;
             border: 1px solid #c3e6cb;
         }
-
         .error {
             background-color: #f8d7da;
             color: #721c24;
@@ -80,23 +66,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <body>
     <div class="register-form">
         <h2>เข้าสู่ระบบ</h2>
-
         <?php if ($message): ?>
             <div class="message-box <?= strpos($message, 'สำเร็จ') !== false ? 'success' : 'error' ?>">
                 <?= htmlspecialchars($message) ?>
             </div>
         <?php endif; ?>
-
         <form method="POST" action="login.php">
             <label for="email">อีเมล:</label>
             <input type="email" id="email" name="email" required>
-
             <label for="password">รหัสผ่าน:</label>
             <input type="password" id="password" name="password" required>
-
             <button type="submit">เข้าสู่ระบบ</button>
         </form>
-
         <p>ยังไม่มีบัญชี? <a href="register.php">สมัครสมาชิก</a></p>
         <p>ไปหน้าหลัก <a href="index.html">หน้าหลัก</a></p>
     </div>
