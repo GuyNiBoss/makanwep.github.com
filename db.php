@@ -1,7 +1,7 @@
 <?php
 
-$is_local = ($_SERVER['SERVER_NAME'] === 'localhost');
-
+//$is_local = ($_SERVER['SERVER_NAME'] === 'localhost');
+$is_local = in_array($_SERVER['SERVER_NAME'], ['localhost', '127.0.0.1']);
 if ($is_local) {
     $db_config = [
         'servername' => 'localhost',
