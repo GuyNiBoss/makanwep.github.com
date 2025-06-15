@@ -1,0 +1,102 @@
+/* สำหรับฟอร์มการเข้าสู่ระบบ */
+.register-form {
+    width: 100%;
+    max-width: 400px;
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+}
+
+input[type="email"], input[type="password"], button {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+button {
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.message-box {
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 15px;
+}
+
+.success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.error {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+/* ให้ฟอร์มใช้งานได้ดีบนมือถือ */
+@media (max-width: 600px) {
+    .register-form {
+        padding: 15px;
+    }
+}
+/* สำหรับฟอร์มการสมัครสมาชิก */
+.register-form {
+    width: 100%;
+    max-width: 400px;
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+}
+
+input[type="text"], input[type="email"], input[type="password"], button {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+button {
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.message-box {
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 15px;
+}
+
+.success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.error {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+
+@media (max-width: 600px) {
+    .register-form {
+        padding: 15px;
+    }
+}
